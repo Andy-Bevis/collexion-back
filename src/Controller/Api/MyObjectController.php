@@ -213,30 +213,21 @@ class MyObjectController extends AbstractController
     }
 
     #[Route('/secure/object/upload_file', name: 'api_object_upload_file', methods: ['POST'])]
-    public function upload(Request $request, ParameterBagInterface $params, MyObject $myObject,EntityManagerInterface $manager)
+    public function upload(Request $request, ParameterBagInterface $params): Response
     {
-        // for test only in the back side
-        //  $myObject = $myObjectRepository->find(4);
-
         $image = $request->files->get('file');
-        				
         // on ajoute uniqid() afin de ne pas avoir 2 fichiers avec le même nom
         $newFilename = uniqid().'.'. $image->getClientOriginalName();
-
-         // enregistrement de l'image dans le dossier public du serveur
+        // enregistrement de l'image dans le dossier public du serveur
         // paramas->get('public') =>  va chercher dans services.yaml la variable public
         $image->move($params->get('images_objects'), $newFilename);
-
-        // ne pas oublier d'ajouter l'url de l'image dans l'entitée aproprié
-		// $entity est l'entity qui doit recevoir votre image
-		$myObject->setImage($newFilename);
-
-        $manager->flush();
+        $url = "localhost/".$_SERVER["BASE"]."/images/objects/".$newFilename;
 
         return $this->json([
-            'message' => 'Image uploaded successfully.'
+            'url' => $url
         ]);
     }
+    
   
     #[Route('/object_random', name: 'api_my_object_random',methods: ['GET'])]
     public function random(MyObjectRepository $myObjectRepository): Response
