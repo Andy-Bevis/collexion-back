@@ -26,7 +26,6 @@ class MyCollection
     private ?string $name = null;
 
     #[ORM\Column(length: 2083)]
-    #[Assert\NotNull]
     #[Groups(['get_collections','collection','get_user','get_collection','get_favorite','get_collection_random','get_page_object'])]
     private ?string $image = null;
 
@@ -61,7 +60,7 @@ class MyCollection
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank,Assert\NotNull,Assert\Type('bool')]
+    #[Assert\NotNull,Assert\Type('bool')]
     private ?bool $is_active = null;
 
     public function __construct()

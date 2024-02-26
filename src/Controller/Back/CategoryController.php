@@ -46,7 +46,6 @@ class CategoryController extends AbstractController
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = uniqid().'.'.$safeFilename.'.'.$imageName->guessExtension();
-            
                 // Move the file to the directory where brochures are stored
                 try {
                     $imageName->move(
@@ -59,7 +58,7 @@ class CategoryController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $category->setimage($newFilename);
+                $category->setimage($_SERVER["BASE"]."/images/categories/".$newFilename);
             }
             $entityManager->persist($category);
             $entityManager->flush();
@@ -88,11 +87,6 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $imageName = $form->get('image')->getData();
             
             if ($imageName) {
@@ -113,9 +107,9 @@ class CategoryController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $category->setimage($newFilename);
+                $category->setimage($_SERVER["BASE"]."/images/categories/".$newFilename);
             }
-        }
+        
             $entityManager->flush();
 
             return $this->redirectToRoute('app_back_category_index', [], Response::HTTP_SEE_OTHER);

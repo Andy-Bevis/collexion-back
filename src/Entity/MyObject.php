@@ -27,7 +27,6 @@ class MyObject
     private ?string $name = null;
 
     #[ORM\Column(length: 2083)]
-    #[Assert\NotNull]
     #[Groups(['get_objects','get_collections','object','get_collection','get_categorie_childs','get_page_object'])]
     private ?string $image = null;
 
