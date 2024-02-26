@@ -17,7 +17,10 @@ class MyCollectionType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('image')
+            ->add('image', FileType::class, [
+                'label' => "Image de l'objet",
+                'mapped' => false,
+            ])
             ->add('description')
             ->add('is_active')
             ->add('user', EntityType::class, [

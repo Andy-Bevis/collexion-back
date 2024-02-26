@@ -27,7 +27,7 @@ class MyObject
     private ?string $name = null;
 
     #[ORM\Column(length: 2083)]
-    #[Assert\NotBlank,Assert\NotNull,Assert\Image]
+    #[Assert\NotNull]
     #[Groups(['get_objects','get_collections','object','get_collection','get_categorie_childs','get_page_object'])]
     private ?string $image = null;
 
@@ -37,7 +37,7 @@ class MyObject
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank,Assert\NotNull,Assert\Length(min: 5, max: 20),Assert\Type('string')]
+    #[Assert\NotBlank,Assert\NotNull,Assert\Length(min: 3, max: 20),Assert\Type('string')]
     #[Groups(['get_objects','object','get_categorie_childs','get_page_object'])]
     private ?string $state = null;
 

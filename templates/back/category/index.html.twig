@@ -6,7 +6,7 @@
 <div class="container my-4">
     
     {% if app.request.attributes.get('_route') == 'app_back_category_index' %}
-        <h1>Category index</h1>
+        <h1>Category <a href="{{ path('app_back_main')}}"> index</a></h1>
         <a href="{{ path('app_back_category_relation') }}"class="btn btn-outline-primary">Category relation</a>
     {% elseif app.request.attributes.get('_route') == 'app_back_category_relation' %}
         <h1>Category relation</h1>

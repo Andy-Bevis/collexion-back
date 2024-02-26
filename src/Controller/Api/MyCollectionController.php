@@ -204,7 +204,7 @@ class MyCollectionController extends AbstractController
         // enregistrement de l'image dans le dossier public du serveur
         // paramas->get('public') =>  va chercher dans services.yaml la variable public
         $image->move($params->get('images_collections'), $newFilename);
-        $url = "localhost/".$_SERVER["BASE"]."/images/collections/".$newFilename;
+        $url = $_SERVER["BASE"]."/images/collections/".$newFilename;
         
         return $this->json([
             'url' => $url,
@@ -216,20 +216,16 @@ class MyCollectionController extends AbstractController
     {
         // retrieve all collections
         $collections = $myCollectionRepository->findRandomCollectionSql();
-        
-        // check if $myCollection doesn't exist
-        if (!$collections) {
-            return $this->json(
-                "Error : Collection inexistante",
-                // status code
-                404
-            );
+
+        foreach ($collections as $collection) {
+            $collectionRandom = $myCollectionRepository->find($collection['id']);
+            $collectionsRandom[] = $collectionRandom;
         }
 
         // return json
         return $this->json(
             // what I want to show
-            $collections,
+            $collectionsRandom,
             // status code
             200,
             // header

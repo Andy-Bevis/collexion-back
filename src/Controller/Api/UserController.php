@@ -166,7 +166,7 @@ class UserController extends AbstractController
 
         // ne pas oublier d'ajouter l'url de l'image dans l'entitée aproprié
 		// $entity est l'entity qui doit recevoir votre image
-		$user->setPicture("localhost/".$_SERVER["BASE"]."/images/users/".$newFilename);
+		$user->setPicture($_SERVER["BASE"]."/images/users/".$newFilename);
 
         $manager->flush();
 

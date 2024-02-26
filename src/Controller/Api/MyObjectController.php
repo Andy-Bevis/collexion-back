@@ -94,18 +94,6 @@ class MyObjectController extends AbstractController
 
     $myCollectionId = $jsonData['relatedMyCollections'];
 
-
-    $myNewObject->setCategory($category);
-    foreach ($myCollectionId as $collection) {
-        $collectionId = $collection['id'];
-        $collectionToAdd = $myCollectionRepository->find($collectionId);
-        if ($collectionToAdd) {
-            $myNewObject->addMyCollection($collectionToAdd);
-        } else {
-            return $this->json(['message' => 'Collection not found'], 404);
-        }
-    }
-
     $myObject = new MyObject();
     $myObject->setCategory($category);
     $myObject->setName($myNewObject->getName());
@@ -221,7 +209,7 @@ class MyObjectController extends AbstractController
         // enregistrement de l'image dans le dossier public du serveur
         // paramas->get('public') =>  va chercher dans services.yaml la variable public
         $image->move($params->get('images_objects'), $newFilename);
-        $url = "localhost/".$_SERVER["BASE"]."/images/objects/".$newFilename;
+        $url = $_SERVER["BASE"]."/images/objects/".$newFilename;
 
         return $this->json([
             'url' => $url
@@ -233,7 +221,12 @@ class MyObjectController extends AbstractController
     public function random(MyObjectRepository $myObjectRepository): Response
     {
         // retrieve all collections
-        $objectRandom = $myObjectRepository->findRandomObjectSql();
+        $objects = $myObjectRepository->findRandomObjectSql();
+
+        foreach ($objects as $object) {
+            $objectRandom = $myObjectRepository->find($object['id']);
+            $objectsRandom[] = $objectRandom;
+        }
         
         // check if $myCollection doesn't exist
         if (!$objectRandom) {
@@ -247,7 +240,7 @@ class MyObjectController extends AbstractController
         // return json
         return $this->json(
             // what I want to show
-            $objectRandom,
+            $objectsRandom,
             // status code
             200,
             // header
