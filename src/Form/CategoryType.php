@@ -16,7 +16,7 @@ class CategoryType extends AbstractType
         $builder
             ->add('name')
             ->add('image', FileType::class, [
-                'label' => 'Image de la collection',
+                'label' => "Image de la catégorie",
                 'mapped' => false,
             ])
             ->add('category', EntityType::class, [

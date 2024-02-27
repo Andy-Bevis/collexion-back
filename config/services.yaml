@@ -12,6 +12,7 @@ services:
     App\Entity\MyCollection:
         class: App\Entity\MyCollection
     App\Entity\User: ~
+    App\Entity\MyObject: ~
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.

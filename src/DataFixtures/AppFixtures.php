@@ -62,7 +62,6 @@ class AppFixtures extends Fixture
             for($j = 0; $j < 3; $j++){
                 $object = new MyObject();
                 $object->setName('Object ' . $j);
-                $object->setTitle('Title ' . $j);
                 $object->setImage('https://via.placeholder.com/150');
                 $object->setDescription('Description ' . $j);
                 $object->setState('State ' . $j);

@@ -52,7 +52,7 @@ class MyObjectController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $myObject->setimage($newFilename);
+                $myObject->setimage($_SERVER["BASE"]."/images/objects/".$newFilename);
             }
             $entityManager->persist($myObject);
             $entityManager->flush();
@@ -102,9 +102,8 @@ class MyObjectController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $myObject->setimage($newFilename);
+                $myObject->setimage($_SERVER["BASE"]."/images/objects/".$newFilename);
             }
-
             $entityManager->flush();
 
             return $this->redirectToRoute('app_back_my_object_index', [], Response::HTTP_SEE_OTHER);

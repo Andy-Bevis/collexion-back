@@ -37,7 +37,6 @@ class Category
 
     #[ORM\Column(length: 2083)]
     #[Groups(['get_categories', 'get_categorie_childs'])]
-    #[Assert\NotBlank,Assert\NotNull,Assert\Image]
     private ?string $image = null;
 
     public function __construct()
