@@ -40,7 +40,7 @@ class UserController extends AbstractController
                 // De cette entité je recupère le mdp
                 $user->getPassword()
                 );
-                $imageName = $form->get('image')->getData();
+                $imageName = $form->get('picture')->getData();
             
             if ($imageName) {
                 $originalFilename = pathinfo($imageName->getClientOriginalName(), PATHINFO_FILENAME);
@@ -51,7 +51,7 @@ class UserController extends AbstractController
                 // Move the file to the directory where brochures are stored
                 try {
                     $imageName->move(
-                        $this->getParameter('images_categories'),
+                        $this->getParameter('images_users'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -60,7 +60,7 @@ class UserController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $user->setimage($newFilename);
+                $user->setPicture($_SERVER["BASE"]."/images/users/".$newFilename);
             }
                 // Je redéfinis le mot de passe de $user et je lui donne la valeur du mdp hashé
             $user->setPassword($hashedPassword);
@@ -96,7 +96,7 @@ class UserController extends AbstractController
                 $user,
                 $user->getPassword()
             );
-            $imageName = $form->get('image')->getData();
+            $imageName = $form->get('picture')->getData();
             
             if ($imageName) {
                 $originalFilename = pathinfo($imageName->getClientOriginalName(), PATHINFO_FILENAME);
@@ -107,7 +107,7 @@ class UserController extends AbstractController
                 // Move the file to the directory where brochures are stored
                 try {
                     $imageName->move(
-                        $this->getParameter('images_categories'),
+                        $this->getParameter('images_users'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -116,7 +116,7 @@ class UserController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $user->setimage($newFilename);
+                $user->setPicture($_SERVER["BASE"]."/images/users/".$newFilename);
             }
             // Je redéfinis le mot de passe de $user et je lui donne la valeur du mdp hashé
             $user->setPassword($hashedPassword);

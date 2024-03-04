@@ -26,7 +26,6 @@ class MyCollection
     private ?string $name = null;
 
     #[ORM\Column(length: 2083)]
-    #[Assert\NotBlank,Assert\NotNull,Assert\Image]
     #[Groups(['get_collections','collection','get_user','get_collection','get_favorite','get_collection_random','get_page_object'])]
     private ?string $image = null;
 
@@ -41,13 +40,13 @@ class MyCollection
 
     #[ORM\ManyToOne(inversedBy: 'mycollections')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['get_collections','get_collection','get_page_object'])]
+    #[Groups(['get_collections','get_collection','get_page_object','get_collection_random'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'myfavoritescollections')]
     private Collection $users;
 
-    #[ORM\ManyToMany(targetEntity: MyObject::class, inversedBy: 'myCollections')]
+    #[ORM\ManyToMany(targetEntity: MyObject::class, inversedBy: 'myCollections',cascade: ['persist'])]
     #[Groups(['get_collections','get_collection',])]
     private Collection $myobjects;
 
@@ -61,7 +60,7 @@ class MyCollection
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank,Assert\NotNull,Assert\Type('bool')]
+    #[Assert\NotNull,Assert\Type('bool')]
     private ?bool $is_active = null;
 
     public function __construct()

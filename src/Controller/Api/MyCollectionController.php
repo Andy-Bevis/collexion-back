@@ -196,57 +196,36 @@ class MyCollectionController extends AbstractController
      * @Route("/uploadFile", name="upload", methods={"POST"})
      */
     #[Route('/secure/collection/upload_file', name: 'api_collection_upload_file', methods: ['POST'])]
-    public function upload(Request $request, MyCollectionRepository $myCollectionRepository, ParameterBagInterface $params, MyCollection $myCollection,EntityManagerInterface $manager)
+    public function upload(Request $request, ParameterBagInterface $params)
     {
-        // for test only in the back side
-         $myCollection = $myCollectionRepository->find(2);
-
         $image = $request->files->get('file');
-
-        $validator = Validation::createValidator();
-        $violations = $validator->validate($image);
-
-        if (0 !== count($violations)) {
-            return $this->json([$violations,500,['message' => 'error']]); ;
-        } else{
-           
-            // on ajoute uniqid() afin de ne pas avoir 2 fichiers avec le même nom
-            $newFilename = uniqid().'.'. $image->getClientOriginalName();
-
-             // enregistrement de l'image dans le dossier public du serveur
-            // paramas->get('public') =>  va chercher dans services.yaml la variable public
-            $image->move($params->get('images_collections'), $newFilename);
-
-            // ne pas oublier d'ajouter l'url de l'image dans l'entitée aproprié
-            // $entity est l'entity qui doit recevoir votre image
-            $myCollection->setImage($newFilename);
-
-            $manager->flush();
-
-            return $this->json([
-                'message' => 'Image uploaded successfully.'
-            ]);
-        }
+        // on ajoute uniqid() afin de ne pas avoir 2 fichiers avec le même nom
+        $newFilename = uniqid().'.'. $image->getClientOriginalName();
+        // enregistrement de l'image dans le dossier public du serveur
+        // paramas->get('public') =>  va chercher dans services.yaml la variable public
+        $image->move($params->get('images_collections'), $newFilename);
+        $url = $_SERVER["BASE"]."/images/collections/".$newFilename;
+        
+        return $this->json([
+            'url' => $url,
+        ]);
+        
     } 
     #[Route('/collection_random', name: 'api_my_collection_random',methods: ['GET'])]
     public function random(MyCollectionRepository $myCollectionRepository): Response
     {
         // retrieve all collections
         $collections = $myCollectionRepository->findRandomCollectionSql();
-        
-        // check if $myCollection doesn't exist
-        if (!$collections) {
-            return $this->json(
-                "Error : Collection inexistante",
-                // status code
-                404
-            );
+
+        foreach ($collections as $collection) {
+            $collectionRandom = $myCollectionRepository->find($collection['id']);
+            $collectionsRandom[] = $collectionRandom;
         }
 
         // return json
         return $this->json(
             // what I want to show
-            $collections,
+            $collectionsRandom,
             // status code
             200,
             // header

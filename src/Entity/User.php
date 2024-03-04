@@ -22,12 +22,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Assert\Type('integer')]
-    #[Groups(['get_collections', 'get_users','get_user','get_collection','get_page_object'])]
+    #[Groups(['get_collections', 'get_users','get_user','get_collection','get_page_object','get_collection_random'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank,Assert\NotNull,Assert\Email]
-    #[Groups(['get_users','get_user','get_collection_random'])]
+    #[Groups(['get_users','get_user'])]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -44,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank,Assert\NotNull,Assert\Type('string'),Assert\Length(min: 3, max: 20)]
-    #[Groups(['get_collections', 'get_users','get_user','get_collection','get_collection_random','get_page_object'])]
+    #[Groups(['get_collections', 'get_users','get_user','get_collection','get_collection_random','get_page_object','get_collection_random'])]
     private ?string $nickname = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -54,8 +54,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column(length: 2083,nullable: true)]
-    #[Assert\Image]
-    #[Groups(['get_objects','get_collections','object','get_collection_random','get_page_object'])]
+    #[Groups(['get_objects','get_collections','object','get_collection_random','get_page_object','get_collection_random'])]
     private ?string $picture = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: MyCollection::class, orphanRemoval: true)]

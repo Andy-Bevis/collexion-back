@@ -153,8 +153,7 @@ class UserController extends AbstractController
     #[Route('/secure/user/upload_file', name: 'api_user_upload_file', methods: ['POST'])]
     public function upload(Request $request, UserRepository $userRepository, ParameterBagInterface $params,User $user, EntityManagerInterface $manager)
     {
-        // for test only in the back side
-        // $user = $userRepository->find(1);
+        $user = $userRepository->find($this->getUser());
 
         $image = $request->files->get('file');
 				
@@ -166,8 +165,8 @@ class UserController extends AbstractController
         $image->move($params->get('images_users'), $newFilename);
 
         // ne pas oublier d'ajouter l'url de l'image dans l'entitée aproprié
-		    // $entity est l'entity qui doit recevoir votre image
-		$user->setPicture($newFilename);
+		// $entity est l'entity qui doit recevoir votre image
+		$user->setPicture($_SERVER["BASE"]."/images/users/".$newFilename);
 
         $manager->flush();
 

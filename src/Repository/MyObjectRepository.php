@@ -40,10 +40,10 @@ public function findRandomObjectSql()
  $conn = $this->getEntityManager()->getConnection();
 
  $sql = '
- SELECT *
- FROM my_object
+ SELECT mo.id
+ FROM my_object AS mo
  ORDER BY RAND()
- LIMIT 1
+ LIMIT 6
      ';
  $resultSet = $conn->executeQuery($sql);
  return $resultSet->fetchAssociative();

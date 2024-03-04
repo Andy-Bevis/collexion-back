@@ -52,8 +52,9 @@ class MyCollectionController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $myCollection->setimage($newFilename);
+                $myCollection->setimage($_SERVER["BASE"]."/images/collections/".$newFilename);
             }
+            $myCollection->setIsActive(false);
             $entityManager->persist($myCollection);
             $entityManager->flush();
 
@@ -102,11 +103,10 @@ class MyCollectionController extends AbstractController
 
                 // updates the 'imageNamename' property to store the PDF file name
                 // instead of its contents
-                $myCollection->setimage($newFilename);
+                $myCollection->setimage($_SERVER["BASE"]."/images/collections/".$newFilename);
             }
             
-            
-            
+            $myCollection->setUpdatedAt(new \DateTimeImmutable());
             $entityManager->flush();
 
             return $this->redirectToRoute('app_back_my_collection_index', [], Response::HTTP_SEE_OTHER);

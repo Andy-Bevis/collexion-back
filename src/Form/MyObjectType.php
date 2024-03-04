@@ -17,9 +17,8 @@ class MyObjectType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('title')
             ->add('image', FileType::class, [
-                'label' => 'Image de la collection',
+                'label' => "Image de l'objet",
                 'mapped' => false,
             ])
             ->add('description')
